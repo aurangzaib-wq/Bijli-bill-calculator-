@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pakistan Bijli Bill Calculator</title>
+<style>
+:root{--blue:#075985;--green:#15803d;--bg:#f1f5f9}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#172554}
+header{background:linear-gradient(120deg,#075985,#0f766e);color:white;text-align:center;padding:28px 15px}
+header h1{margin:0 0 8px;font-size:26px} header p{margin:0}
+main{max-width:650px;margin:24px auto;padding:0 14px}
+.card{background:white;border-radius:16px;padding:22px;box-shadow:0 5px 20px #0f172a12}
+label{display:block;font-weight:bold;margin:14px 0 7px}
+input,select,button{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px}
+button{border:0;background:var(--green);color:white;font-weight:bold;margin-top:18px;cursor:pointer}
+.result{display:none;margin-top:20px;padding:18px;background:#ecfdf5;border:1px solid #86efac;border-radius:12px}
+.total{font-size:28px;font-weight:bold;color:#166534}
+.note{font-size:13px;color:#475569;line-height:1.6;margin-top:18px}
+footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>Pakistan Bijli Bill Calculator</h1>
+<p>اپنے بجلی کے یونٹس کا تخمینی بل معلوم کریں</p>
+</header>
+<main>
+<div class="card">
+<h2>Bill Calculator / بجلی بل کیلکولیٹر</h2>
+<label for="company">Electricity Company / بجلی کمپنی</label>
+<select id="company">
+<option>LESCO</option><option>IESCO</option><option>FESCO</option><option>MEPCO</option>
+<option>PESCO</option><option>GEPCO</option><option>HESCO</option><option>SEPCO</option>
+<option>QESCO</option><option>TESCO</option><option>K-Electric</option>
+</select>
+<label for="units">Units Consumed / استعمال شدہ یونٹس</label>
+<input id="units" type="number" min="0" placeholder="مثلاً 200">
+<label for="rate">Per Unit Rate (Rs.) / فی یونٹ قیمت</label>
+<input id="rate" type="number" min="0" step="0.01" value="30">
+<label for="tax">Additional Charges / ٹیکس اور دیگر چارجز (روپے)</label>
+<input id="tax" type="number" min="0" step="0.01" value="0">
+<button onclick="calculate()">Calculate Bill / بل معلوم کریں</button>
+<div class="result" id="result" aria-live="polite">
+<div id="companyResult"></div>
+<p>Units: <strong id="unitResult"></strong></p>
+<p>Energy Cost: Rs. <strong id="energyResult"></strong></p>
+<p>Additional Charges: Rs. <strong id="taxResult"></strong></p>
+<div>Estimated Total / تخمینی بل:</div>
+<div class="total">Rs. <span id="totalResult"></span></div>
+</div>
+<p class="note">نوٹ: یہ ایک سادہ تخمینہ ہے۔ اصل بجلی کے بل میں سلیب ریٹس، ٹیکس، فیول پرائس ایڈجسٹمنٹ، فکسڈ چارجز اور دیگر حکومتی چارجز شامل ہو سکتے ہیں۔ درست رقم کے لیے اپنے بجلی کے بل یا متعلقہ کمپنی کے تازہ ٹیرف کو دیکھیں۔</p>
+</div>
+</main>
+<footer>Pakistan Bijli Bill Calculator</footer>
+<script>
+function calculate(){
+ const units=Number(document.getElementById('units').value);
+ const rate=Number(document.getElementById('rate').value);
+ const tax=Number(document.getElementById('tax').value);
+ if(!Number.isFinite(units)||units<0||!Number.isFinite(rate)||rate<0||!Number.isFinite(tax)||tax<0){
+  alert('Please enter valid non-negative numbers.'); return;
+ }
+ const energy=units*rate, total=energy+tax;
+ document.getElementById('companyResult').textContent='Company: '+document.getElementById('company').value;
+ document.getElementById('unitResult').textContent=units;
+ document.getElementById('energyResult').textContent=energy.toFixed(2);
+ document.getElementById('taxResult').textContent=tax.toFixed(2);
+ document.getElementById('totalResult').textContent=total.toFixed(2);
+ document.getElementById('result').style.display='block';
+}
+</script>
+</body>
+</html>
